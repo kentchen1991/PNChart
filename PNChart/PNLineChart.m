@@ -139,17 +139,24 @@
 
     if (_showLabel) {
         CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
-
+//        CGFloat yStepHeight = 29;
         for (int index = 0; index < yLabels.count; index++) {
             labelText = yLabels[(NSUInteger) index];
 
-            NSInteger y = (NSInteger) (_chartCavanHeight + _chartMarginTop - index * yStepHeight);
-
-            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y - (NSInteger) _chartMarginBottom / 2, (CGFloat) ((NSInteger) _chartMarginLeft * 0.9), (NSInteger) _yLabelHeight)];
+            NSInteger y = (NSInteger) (_chartCavanHeight - index * yStepHeight);
+            NSLog(@"%ld",(long)y);
+            PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(0.0, y - (NSInteger) _chartMarginBottom, (CGFloat) ((NSInteger) _chartMarginLeft * 0.9), (NSInteger) _yLabelHeight)];
+            //_yLabelHeight
             [label setTextAlignment:NSTextAlignmentRight];
             label.text = labelText;
+//            if (index % 2 == 0) {
+//                [label setBackgroundColor:PNRed];
+//            } else {
+//                [label setBackgroundColor:PNBlue];
+//            }
             [self setCustomStyleForYLabel:label];
             [self addSubview:label];
+//            NSLog(@"%@",NSStringFromCGRect(label.frame));
             [_yChartLabels addObject:label];
         }
     }
@@ -198,13 +205,16 @@
             labelText = xLabels[index];
 
             NSInteger x = (NSInteger) (index * _xLabelWidth + _chartMarginLeft);
-            NSInteger y = (NSInteger) (_chartMarginBottom + _chartCavanHeight);
-
+//            NSInteger y = (NSInteger) (_chartMarginBottom + _chartCavanHeight);
+            NSInteger y = (NSInteger) (_chartCavanHeight);
             PNChartLabel *label = [[PNChartLabel alloc] initWithFrame:CGRectMake(x, y, (NSInteger) _xLabelWidth, (NSInteger) _chartMarginBottom)];
             [label setTextAlignment:NSTextAlignmentCenter];
+//            [label setBackgroundColor:PNRed];
             label.text = labelText;
             [self setCustomStyleForXLabel:label];
             [self addSubview:label];
+//            [label setBackgroundColor:PNRed];
+//            NSLog(@"%@",NSStringFromCGRect(label.frame));
             [_xChartLabels addObject:label];
         }
     }
@@ -819,14 +829,18 @@ andProgressLinePathsColors:(NSMutableArray *)progressLinePathsColors {
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGFloat yAxisOffset = _showLabel ? 10.f : 0.0f;
         CGPoint point;
-        CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
+//        CGFloat yStepHeight = _chartCavanHeight / _yLabelNum;
         if (self.yGridLinesColor) {
             CGContextSetStrokeColorWithColor(ctx, self.yGridLinesColor.CGColor);
         } else {
             CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
         }
         for (NSUInteger i = 0; i < _yLabelNum; i++) {
-            point = CGPointMake(_chartMarginLeft + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight / 2));
+//            point = CGPointMake(_chartMarginLeft + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight/2));
+            
+            UILabel *ylabel = self.yChartLabels[i];
+            point = CGPointMake(_chartMarginLeft + yAxisOffset, ylabel.center.y);
+            
             CGContextMoveToPoint(ctx, point.x, point.y);
             // add dotted style grid
             CGFloat dash[] = {6, 5};
