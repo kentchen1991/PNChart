@@ -32,7 +32,7 @@
         [self.lineChart.chartData enumerateObjectsUsingBlock:^(PNLineChartData *obj, NSUInteger idx, BOOL *stop) {
             obj.pointLabelColor = [UIColor blackColor];
         }];
-        CGFloat lineHeight = 200;
+        CGFloat lineHeight = 271;
         self.lineChart = [[PNLineChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, lineHeight)];
         self.lineChart.showCoordinateAxis = YES;
         self.lineChart.yLabelFormat = @"%1.1f";
@@ -78,43 +78,24 @@
         [self.lineChart strokeChart];
         [self.view addSubview:self.lineChart];
     } else if ([self.title isEqualToString:@"Bar Chart"]) {
-        static NSNumberFormatter *barChartFormatter;
-        if (!barChartFormatter) {
-            barChartFormatter = [[NSNumberFormatter alloc] init];
-            barChartFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
-            barChartFormatter.allowsFloats = NO;
-            barChartFormatter.maximumFractionDigits = 0;
-        }
-        self.titleLabel.text = @"Bar Chart";
-
-        self.barChart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, 135.0, SCREEN_WIDTH, 200.0)];
-//        self.barChart.showLabel = NO;
-        self.barChart.yLabelFormatter = ^(CGFloat yValue) {
-            return [barChartFormatter stringFromNumber:@(yValue)];
-        };
-
-        self.barChart.yChartLabelWidth = 20.0;
-        self.barChart.chartMarginLeft = 30.0;
-        self.barChart.chartMarginRight = 10.0;
-        self.barChart.chartMarginTop = 5.0;
-        self.barChart.chartMarginBottom = 10.0;
-
-
-        self.barChart.labelMarginTop = 5.0;
-        self.barChart.showChartBorder = YES;
-        [self.barChart setXLabels:@[@"2", @"3", @"4", @"5", @"2", @"3", @"4", @"5"]];
-//       self.barChart.yLabels = @[@-10,@0,@10];
-//        [self.barChart setYValues:@[@10000.0,@30000.0,@10000.0,@100000.0,@500000.0,@1000000.0,@1150000.0,@2150000.0]];
-        [self.barChart setYValues:@[@10.82, @1.88, @6.96, @33.93, @10.82, @1.88, @6.96, @33.93]];
-        [self.barChart setStrokeColors:@[PNGreen, PNGreen, PNRed, PNGreen, PNGreen, PNGreen, PNRed, PNGreen]];
+        self.barChart = [[PNBarChart alloc]initWithFrame:CGRectMake(0,135,SCREEN_WIDTH,200.0)];
+        //X轴数据
+        [self.barChart setXLabels:@[@"SEP 1",@"SEP 2",@"SEP 3",@"SEP 4",@"SEP 5"]];
+        [self.barChart setYLabels:@[@"0",@"20",@"40",@"60",@"80",@"100"]];
+        //Y轴数据
+        [self.barChart setYMaxValue:100];
+        [self.barChart setYMinValue:0];
+        [self.barChart setYValues:@[@40, @60,@28,@96,@83]];
         self.barChart.isGradientShow = NO;
         self.barChart.isShowNumbers = NO;
-
+        self.barChart.showChartBorder = YES;
+        self.barChart.chartMarginBottom = 30;
+        self.barChart.yChartLabelWidth = 1.0;
+        self.barChart.showYGridLines = YES;
+        [self.barChart setStrokeColor:[UIColor yellowColor]];
+        self.barChart.barBackgroundColor = [UIColor clearColor];
         [self.barChart strokeChart];
-
-        self.barChart.delegate = self;
-
-        [self.view addSubview:self.barChart];
+        [self.view addSubview: self.barChart];
     } else if ([self.title isEqualToString:@"Circle Chart"]) {
         self.titleLabel.text = @"Circle Chart";
 

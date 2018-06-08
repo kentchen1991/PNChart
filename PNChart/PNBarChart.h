@@ -56,6 +56,8 @@ typedef NSString *(^PNYLabelFormatter)(CGFloat yLabelValue);
 @property (nonatomic) CGFloat chartMarginRight;
 @property (nonatomic) CGFloat chartMarginTop;
 @property (nonatomic) CGFloat chartMarginBottom;
+//add by csh
+@property (nonatomic, assign) BOOL showYGridLines;
 
 /** Controls whether labels should be displayed. */
 @property (nonatomic) BOOL showLabel;

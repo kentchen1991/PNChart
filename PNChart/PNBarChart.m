@@ -104,6 +104,32 @@
 }
 
 #pragma mark - Private Method
+-(void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    //add by csh
+    if (self.showYGridLines) {
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGFloat yAxisOffset = _showLabel ? 10.f : 0.0f;
+        CGPoint point;
+        CGContextSetStrokeColorWithColor(ctx, [UIColor lightGrayColor].CGColor);
+        for (NSUInteger i = 0; i < _yChartLabels.count - 1; i++) {
+            //            point = CGPointMake(_chartMarginLeft + yAxisOffset, (_chartCavanHeight - i * yStepHeight + _yLabelHeight/2));
+            
+            UILabel *ylabel = _yChartLabels[i];
+            point = CGPointMake(_chartMarginLeft + yAxisOffset, ylabel.center.y);
+            
+            CGContextMoveToPoint(ctx, point.x, point.y);
+            // add dotted style grid
+            CGFloat dash[] = {6, 5};
+            // dot diameter is 20 points
+            CGContextSetLineWidth(ctx, 0.5);
+            CGContextSetLineCap(ctx, kCGLineCapRound);
+            CGContextSetLineDash(ctx, 0.0, dash, 2);
+            CGContextAddLineToPoint(ctx, CGRectGetWidth(rect) - _chartMarginLeft + 5, point.y);
+            CGContextStrokePath(ctx);
+        }
+    }
+}
 #pragma mark - Add Y Label
 - (void)__addYCoordinateLabelsValues{
 
@@ -351,7 +377,6 @@
         [self addBorderAnimationIfNeeded];
         [self.layer addSublayer:_chartLeftLine];
     }
-
   // Add Level Separator Line
   if (_showLevelLine) {
     _chartLevelLine = [CAShapeLayer layer];
