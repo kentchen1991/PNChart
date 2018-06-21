@@ -107,7 +107,7 @@
 -(void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     //add by csh
-    if (self.showYGridLines) {
+    if (self.showYGridLines &&_yChartLabels.count > 0) {
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGFloat yAxisOffset = _showLabel ? 10.f : 0.0f;
         CGPoint point;
